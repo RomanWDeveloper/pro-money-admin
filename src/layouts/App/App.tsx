@@ -8,33 +8,33 @@ import { ThemeType } from "@/types/types";
 import { AppWrapper, GlobalStyle } from "./style";
 
 interface AppContextType {
-  theme: ThemeType;
-  setTheme: (theme: ThemeType) => void;
+	theme: ThemeType;
+	setTheme: (theme: ThemeType) => void;
 }
 export const AppContext = createContext({} as AppContextType);
 export const App = () => {
-  const defaultTheme: ThemeType = "dark";
-  const storedTheme = localStorage.getItem("theme") as ThemeType;
-  const [theme, setTheme] = useState<ThemeType>(storedTheme || defaultTheme);
+	const defaultTheme: ThemeType = "dark";
+	const storedTheme = localStorage.getItem("theme") as ThemeType;
+	const [theme, setTheme] = useState<ThemeType>(storedTheme || defaultTheme);
 
-  const initContext = {
-    theme,
-    setTheme: (newTheme: ThemeType) => {
-      setTheme(newTheme);
-      localStorage.setItem("theme", newTheme);
-    },
-  };
+	const initContext = {
+		theme,
+		setTheme: (newTheme: ThemeType) => {
+			setTheme(newTheme);
+			localStorage.setItem("theme", newTheme);
+		},
+	};
 
-  return (
-    <>
-      <AppContext.Provider value={initContext}>
-        <ConfigProvider locale={ruRU} theme={Theme[theme]}>
-          <GlobalStyle theme={Theme[theme]} />
-          <AppWrapper>
-            <Outlet />
-          </AppWrapper>
-        </ConfigProvider>
-      </AppContext.Provider>
-    </>
-  );
+	return (
+		<>
+			<AppContext.Provider value={initContext}>
+				<ConfigProvider locale={ruRU} theme={Theme[theme]}>
+					<GlobalStyle theme={Theme[theme]} />
+					<AppWrapper>
+						<Outlet />
+					</AppWrapper>
+				</ConfigProvider>
+			</AppContext.Provider>
+		</>
+	);
 };
