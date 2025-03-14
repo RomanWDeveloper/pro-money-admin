@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CodeForm } from "./CodeForm";
 import { EmailForm } from "./EmailForm";
+import { useAuthServicePostV1AuthSigninEmail, useAuthServicePostV1AuthSigninEmailVerify } from "@/generated-api/queries";
 
 const { Title, Text } = Typography;
 export const Login = () => {
@@ -13,49 +14,38 @@ export const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false); // добавлено состояние загрузки
 
-  // Фейковая проверка на существование email
-  const refetch = async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { is_exists: Math.random() > 0.5 } }); // случайное значение для существования email
-      }, 1000);
-    });
-  };
+  // Авторизация
+  const { mutate: registration } = useAuthServicePostV1AuthSigninEmail(
+    {
+    onMutate: () => {
+      setIsLoading(true); // установка состояния загрузки в true перед отправкой
+    },
+    onSuccess: () => {
+      console.log("sendCode");
+      setshowCodeForm(true);
+      setIsLoading(false); // сброс состояния загрузки после успешной отправки
+    },
+    onError: () => {
+      setIsLoading(false); // сброс состояния загрузки в случае ошибки
+    },
+    }
+  );
 
-  // Фейковая регистрация
-  const registration = async () => {
-    console.log("registration");
-    await sendCode();
-  };
-
-  // Фейковая отправка кода
-  const sendCode = async () => {
-    setIsLoading(true); // установка состояния загрузки в true перед отправкой
-    console.log("sendCode");
-    setshowCodeForm(true);
-    setIsLoading(false); // сброс состояния загрузки после успешной отправки
-  };
-
-  // Фейковое подтверждение кода
-  const confirmCode = async (code: string) => {
-    console.log("confirmCode", code, { token: "fake-token" });
-    localStorage.setItem("auth-token", "fake-token");
-    navigate("/");
-  };
+  // подтверждение кода
+  const { mutate: confirmCode } = useAuthServicePostV1AuthSigninEmailVerify({
+    onSuccess: (data) => {
+      console.log("confirmCode", data);
+      if (data.accessToken) {
+        localStorage.setItem("auth-token", data.accessToken);
+        navigate("/");
+      }
+    },
+  });
 
   // проверка на существование email и отправка кода или регистрация
   useEffect(() => {
     if (email) {
-      refetch().then((result) => {
-        const typedResult = result as { data: { is_exists: boolean } }; // Приведение типа
-        if (typedResult.data?.is_exists) {
-          console.log("Отправка кода существующему пользователю");
-          sendCode();
-        } else {
-          console.log("Регистрация нового пользователя");
-          registration();
-        }
-      });
+      registration({ requestBody: { email } });
     }
   }, [email]);
 
@@ -64,7 +54,7 @@ export const Login = () => {
   };
 
   const onChangeSendCodeForm: OTPProps["onChange"] = (text) => {
-    confirmCode(text);
+    confirmCode({ requestBody: { email, loginCode: text } });
   };
 
   const sharedPropsSendCodeForm: OTPProps = {
