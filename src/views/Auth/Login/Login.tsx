@@ -33,7 +33,7 @@ export const Login = () => {
 	const { mutate: confirmCode } = useVerifySignInEmail({
 		onSuccess: (data) => {
 			if (data) {
-				localStorage.setItem("auth-token", data.toString());
+				localStorage.setItem("auth-token", data.accessToken);
 				navigate("/");
 			}
 		},
@@ -51,7 +51,7 @@ export const Login = () => {
 	};
 
 	const onChangeSendCodeForm: OTPProps["onChange"] = (text) => {
-		confirmCode({ requestBody: { email, code: text } });
+		confirmCode({ requestBody: { email, code: text }, userAgent: navigator.userAgent });
 	};
 
 	const sharedPropsSendCodeForm: OTPProps = {
