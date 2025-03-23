@@ -12,12 +12,14 @@
 		"codegen": "openapi-rq -i http://localhost:3000/api-v1-json -o ./src/generated-api -c axios --base \"http://localhost:3000\" --format \"prettier\" --lint \"eslint\" --enums \"typescript\" --pageParam \"offset\" --nextPageParam \"offset\""
 	},
 	"dependencies": {
+		"@reduxjs/toolkit": "^2.6.1",
 		"@tanstack/react-query": "^5.66.9",
 		"antd": "^5.24.2",
 		"antd-img-crop": "^4.24.0",
 		"axios": "^1.8.1",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
+		"react-redux": "^9.2.0",
 		"react-router-dom": "^7.2.0",
 		"styled-components": "^6.1.15"
 	},

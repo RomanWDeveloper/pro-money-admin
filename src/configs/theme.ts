@@ -41,14 +41,14 @@ const commonParams = {
     }
 }
 
-export const dark: ThemeConfig = {
+const dark: ThemeConfig = {
     algorithm: darkAlgorithm,
 
     ...commonParams
 };
 
 
-export const light: ThemeConfig = {
+const light: ThemeConfig = {
     algorithm: defaultAlgorithm,
 
     ...commonParams
@@ -77,5 +77,5 @@ export const darkGray: ThemeConfig = {
 export const Theme = {
     dark,
     light,
-    darkGray,
+    // darkGray,
 }

@@ -7,15 +7,19 @@ import { setupAxiosParams } from "./configs/axios";
 import { queryClient } from "./configs/queryClient";
 import router from "./routes/router";
 import "@/styles/index.css";
+import { store } from "./store";
+import { Provider } from "react-redux";
 
 setupAxiosParams();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <StyleProvider layer>
-        <RouterProvider router={router} />
-      </StyleProvider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <StyleProvider layer>
+          <RouterProvider router={router} />
+        </StyleProvider>
+      </QueryClientProvider>
+    </Provider>
   </StrictMode>
 );
 

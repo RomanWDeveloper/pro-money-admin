@@ -1,22 +1,24 @@
-import { AppContext } from "@/layouts/App/App";
-import { ThemeType } from "@/types/types";
+import { ThemeType } from "@/types";
+import { RootState } from "@/store";
 import { Flex, Select, Typography } from "antd";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "@/store/themeSlice";
 
 const { Title } = Typography;
 
 export const Visual = () => {
-  const { theme, setTheme } = useContext(AppContext);
+  const theme = useSelector((state: RootState) => state.theme.current);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (theme) {
-      setTheme(theme);
+      dispatch(setTheme(theme));
     }
-  }, [setTheme]);
+  }, [theme]);
 
   const switchTheme = (value: ThemeType) => {
-    setTheme(value);
-    localStorage.setItem("theme", value);
+    dispatch(setTheme(value));
   };
 
   return (

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CodeForm } from "./CodeForm";
 import { EmailForm } from "./EmailForm";
-import { useАвторизацияServicePostV1AuthSigninEmail, useАвторизацияServicePostV1AuthSigninEmailVerify } from "@/generated-api/queries";
+import { useSignInEmail, useVerifySignInEmail } from "@/utils/apiMethods";
 
 const { Title, Text } = Typography;
 export const Login = () => {
@@ -15,7 +15,7 @@ export const Login = () => {
 	const [isLoading, setIsLoading] = useState(false); // добавлено состояние загрузки
 
 	// Авторизация
-	const { mutate: registration } = useАвторизацияServicePostV1AuthSigninEmail({
+	const { mutate: registration } = useSignInEmail({
 		onMutate: () => {
 			setIsLoading(true); // установка состояния загрузки в true перед отправкой
 		},
@@ -30,11 +30,10 @@ export const Login = () => {
 	});
 
 	// подтверждение кода
-	const { mutate: confirmCode } = useАвторизацияServicePostV1AuthSigninEmailVerify({
+	const { mutate: confirmCode } = useVerifySignInEmail({
 		onSuccess: (data) => {
-			console.log("confirmCode", data);
-			if (data.accessToken) {
-				localStorage.setItem("auth-token", data.accessToken);
+			if (data) {
+				localStorage.setItem("auth-token", data.toString());
 				navigate("/");
 			}
 		},
