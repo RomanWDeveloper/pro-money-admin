@@ -51,7 +51,7 @@ export const Login = () => {
 	};
 
 	const onChangeSendCodeForm: OTPProps["onChange"] = (text) => {
-		confirmCode({ requestBody: { email, code: text }, userAgent: navigator.userAgent });
+		confirmCode({ requestBody: { email, code: text } });
 	};
 
 	const sharedPropsSendCodeForm: OTPProps = {
