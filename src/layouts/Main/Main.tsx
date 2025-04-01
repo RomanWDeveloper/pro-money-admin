@@ -10,7 +10,7 @@ import { useState } from 'react';
 const { Content, Footer, Sider } = Layout;
 
 export const Main = () => {
-  const { token} = theme.useToken();
+  const { token } = theme.useToken();
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const showDrawer = () => {
@@ -20,16 +20,6 @@ export const Main = () => {
   const onCloseDrawer = () => {
     setOpenDrawer(false);
   };
-
-  // проверка авторизации
-  const isAuth = () => {
-    const token = localStorage.getItem("auth-token");
-    return token !== null;
-  };
-  if (!isAuth()) {
-    console.log("not auth");
-    window.location.href = LINKS.AUTH.fullPath;
-  }
 
   return (
     <Layout>

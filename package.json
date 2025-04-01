@@ -9,7 +9,7 @@
 		"lint": "eslint .",
 		"preview": "vite preview",
 		"bump": "npm version patch && node update-version.js",
-		"codegen": "openapi-rq -i http://localhost:3000/api-v1-json -o ./src/generated-api -c axios --base \"http://localhost:3000\" --format \"prettier\" --lint \"eslint\" --enums \"typescript\" --pageParam \"offset\" --nextPageParam \"offset\""
+		"codegen": "openapi-rq -i http://localhost:3000/api-admin-v1-json -o ./src/generated-api -c axios --base \"http://localhost:3000\" --format \"prettier\" --lint \"eslint\" --enums \"typescript\" --pageParam \"offset\" --nextPageParam \"offset\""
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.6.1",

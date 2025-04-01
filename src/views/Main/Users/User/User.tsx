@@ -1,24 +1,27 @@
 import { useParams } from "react-router-dom";
-import { fakeUsersData } from "../Users";
 import { Button, Col, Flex, Image, Rate, Row, Statistic } from "antd";
 import { LikeOutlined } from "@ant-design/icons";
 import { UserContent } from "./style";
+import { useGetUser } from "@/utils/apiMethods";
+import { UserResponseDto } from "@/generated-api/requests";
 
 
 export const User = () => {
     const { id } = useParams();
-    const user = fakeUsersData.find(user => user.id === id);
-
+    
+    if(id) {
+        const {data: userData} = useGetUser({id});
+    }
 
     return (
         <UserContent>
           <Flex gap={16}>
               <Image
                   width={200}
-                  src={user?.picture.large}
+                  src={user?.picture}
               />
               <Flex vertical gap={16}>
-                <h1>{user?.name?.first} {user?.name?.last}</h1>
+                <h1>{user?.name} {user?.name}</h1>
                 <div className="user-info">
                   <div><Rate allowHalf defaultValue={2.5} disabled /> <span>2.5</span></div>
                   <div>

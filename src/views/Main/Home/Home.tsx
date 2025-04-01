@@ -1,7 +1,7 @@
-import { useUsersAdminServiceGetV1AdminUsersMe } from "@/generated-api/queries";
+import { useGetMe } from "@/utils/apiMethods";
 
 export const Home = () => {
-  const { data } = useUsersAdminServiceGetV1AdminUsersMe();
+  const { data } = useGetMe();
   return (
     <div>
       <div>{data?.email}</div>

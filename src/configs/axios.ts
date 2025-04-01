@@ -1,11 +1,9 @@
 import axios, { AxiosError } from "axios";
-import { BASE_URL } from './api';
 import { LINKS } from "./links";
 import { isDevMode } from "./mode";
-import { useRefreshToken } from "@/utils/apiMethods";
+import { AuthenticationService } from "@/generated-api/requests/services.gen";
 
 export const setupAxiosParams = () => {
-  axios.defaults.baseURL = BASE_URL;
   axios.defaults.withCredentials = true;
   
   // Флаг для отслеживания процесса обновления токена
@@ -62,12 +60,17 @@ export const setupAxiosParams = () => {
         isRefreshing = true;
 
         try {
-          // Запрос на обновление токена с использованием tanstack/react-query
-          const { data: response } = await useRefreshToken();
+          // Запрос на обновление токена напрямую через сервис
+          console.log("попытка обновить токен");
+          const response = await AuthenticationService.postV1AuthRefresh();
+          console.log("ответ от обновления токена: ", response);
 
           // Если успешно получили новый токен
           if (response) {
-            const newToken = response;
+            console.log("ответ от обновления токена: ", response);
+
+            const newToken = response.accessToken;
+            console.log("новый токен: ", newToken);
             localStorage.setItem("auth-token", newToken.toString());
             
             // Обновляем заголовок в оригинальном запросе
@@ -80,6 +83,7 @@ export const setupAxiosParams = () => {
             return axios(originalRequest);
           }
         } catch (refreshError) {
+          console.log("не удалось обновить токен", refreshError);
           // Если не удалось обновить токен
           processQueue(refreshError, null);
           

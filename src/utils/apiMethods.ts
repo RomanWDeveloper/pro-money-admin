@@ -5,14 +5,17 @@ import { useAuthenticationServicePostV1AuthRefresh as useRefreshToken } from "@/
 import { useAuthenticationServicePostV1AuthSignOut as useSignOut } from "@/generated-api/queries";
 
 // Users
-import { useHelloServiceGetV1 as useHelloService } from "@/generated-api/queries";
-import { useUsersAdminServiceGetV1AdminUsersMe as useGetMe } from "@/generated-api/queries";
-
+import { useUsersServiceGetV1AdminUsersMe as useGetMe } from "@/generated-api/queries";
+import { useUsersServiceGetV1AdminUsers as useUsersList } from "@/generated-api/queries";
+import { useUsersServicePostV1AdminUsers as useCreateUser } from "@/generated-api/queries";
+import { useUsersServiceGetV1AdminUsersById as useGetUser } from "@/generated-api/queries";
 export { 
   useSignInEmail, 
   useVerifySignInEmail, 
-  useHelloService, 
   useGetMe, 
   useRefreshToken, 
-  useSignOut
+  useSignOut,
+  useUsersList,
+  useCreateUser,
+  useGetUser
  };
