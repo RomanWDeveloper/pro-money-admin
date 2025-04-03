@@ -1,9 +1,6 @@
-import { SETTINGS } from "@/configs/links/settings";
+import { SETTINGS } from "@/constants/links/settings";
 import { User } from "@/views/Main/Settings/User";
 import { Visual } from "@/views/Main/Settings/Visual";
-
-
-// TODO: разобраться с работай index true и статичным шаблоном
 
 export const settings = {
   path: SETTINGS.path, //settings/

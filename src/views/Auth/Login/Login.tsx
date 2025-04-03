@@ -12,20 +12,18 @@ export const Login = () => {
 	const [email, setEmail] = useState<string>("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const navigate = useNavigate();
-	const [isLoading, setIsLoading] = useState(false); // добавлено состояние загрузки
+	const [isLoading, setIsLoading] = useState(false);
 
-	// Авторизация
 	const { mutate: registration } = useSignInEmail({
 		onMutate: () => {
-			setIsLoading(true); // установка состояния загрузки в true перед отправкой
+			setIsLoading(true); 
 		},
 		onSuccess: () => {
-			console.log("sendCode");
 			setshowCodeForm(true);
-			setIsLoading(false); // сброс состояния загрузки после успешной отправки
+			setIsLoading(false); 	
 		},
 		onError: () => {
-			setIsLoading(false); // сброс состояния загрузки в случае ошибки
+			setIsLoading(false);
 		},
 	});
 
@@ -39,7 +37,7 @@ export const Login = () => {
 		},
 	});
 
-	// проверка на существование email и отправка кода или регистрация
+	// FIXME: переделать чтобы отправлялось всегда при нажатии на кнопку (сейчас 1 раз отправляется при вводе email)
 	useEffect(() => {
 		if (email) {
 			registration({ requestBody: { email } });
@@ -71,7 +69,7 @@ export const Login = () => {
 						Войти или зарегистрироваться
 					</Title>
 					{showCodeForm ? (
-						<CodeForm sharedProps={sharedPropsSendCodeForm} onGoBack={handleGoBack} email={email} />
+						<CodeForm resendCode={registration} sharedProps={sharedPropsSendCodeForm} onGoBack={handleGoBack} email={email} />
 					) : (
 						<EmailForm onEmailFormFinish={emailFormonFinish} buttonLoading={isLoading} />
 					)}

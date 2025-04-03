@@ -3,7 +3,7 @@ import { Button, Flex, GetProps, Input, List, Select, Skeleton } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { PostsContent } from './style';
 import { ArrowUpOutlined } from '@ant-design/icons';
-import { BENEFITS } from '@/configs/links/benefits';
+import { BENEFITS } from '@/constants/links/benefits';
 
 export interface BenefitType {
   id: string;

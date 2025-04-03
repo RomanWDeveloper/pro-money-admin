@@ -1,4 +1,4 @@
-import { FEEDBACKS } from "@/configs/links/feedbacks";
+import { FEEDBACKS } from "@/constants/links/feedbacks";
 import { Feedbacks } from "@/views/Main/Feedbacks";
 import { Feedback } from "@/views/Main/Feedbacks/Feedback";
 

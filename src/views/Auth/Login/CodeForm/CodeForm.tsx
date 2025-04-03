@@ -8,12 +8,14 @@ const deadline = Date.now() + 1000 * 60;
 const { Countdown } = Statistic;
 
 interface CodeFormProps {
+  resendCode: (params: { requestBody: { email: string } }) => void;
   sharedProps: OTPProps;
   onGoBack: () => void;
   email: string;
 }
 
 export const CodeForm: FC<CodeFormProps> = ({
+  resendCode,
   sharedProps,
   onGoBack,
   email,
@@ -43,6 +45,7 @@ export const CodeForm: FC<CodeFormProps> = ({
         <Button
           type="link"
           disabled={!isTimerEnd}
+          onClick={() => {resendCode({ requestBody: { email } })}}
           style={{
             color: isTimerEnd ? token.colorPrimary : "#76767A",
             marginBottom: 20,

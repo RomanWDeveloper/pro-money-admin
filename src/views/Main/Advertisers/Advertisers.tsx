@@ -3,7 +3,7 @@ import { Button, Flex, GetProps, Input, List, Select, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 import { PostsContent } from './style';
 import { ArrowUpOutlined } from '@ant-design/icons';
-import { LINKS } from '@/configs/links';
+import { LINKS } from '@/constants/links';
 interface DataType {
   id: string;
   title: string;

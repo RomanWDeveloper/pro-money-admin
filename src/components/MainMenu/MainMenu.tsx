@@ -10,7 +10,7 @@ import {
 import { Badge, type MenuProps } from 'antd';
 import { MainMenu as Menu } from './style';
 import { Link, useLocation } from 'react-router-dom';
-import { LINKS } from '@/configs/links';
+import { LINKS } from '@/constants/links';
 
 type MenuItem = Required<MenuProps>['items'][number] & { path?: string };
 type prepareMenuItem = {

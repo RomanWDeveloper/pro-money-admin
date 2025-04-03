@@ -1,4 +1,4 @@
-import { ADVERTISERS } from "@/configs/links/advertisers";
+import { ADVERTISERS } from "@/constants/links/advertisers";
 import { Advertisers } from "@/views/Main/Advertisers";
 import { Advertiser } from "@/views/Main/Advertisers/Advertiser";
 

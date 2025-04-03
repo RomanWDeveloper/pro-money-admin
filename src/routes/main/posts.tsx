@@ -1,4 +1,4 @@
-import { POSTS } from "@/configs/links/posts";
+import { POSTS } from "@/constants/links/posts";
 import { Posts } from "@/views/Main/Posts";
 import { Post } from "@/views/Main/Posts/Post";
 

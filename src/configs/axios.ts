@@ -1,14 +1,13 @@
 import axios, { AxiosError } from "axios";
-import { LINKS } from "./links";
+import { LINKS } from "../constants/links";
 import { isDevMode } from "./mode";
 import { AuthenticationService } from "@/generated-api/requests/services.gen";
+import { OpenAPI } from "@/generated-api/requests";
 
 export const setupAxiosParams = () => {
-  axios.defaults.withCredentials = true;
+  OpenAPI.WITH_CREDENTIALS = true;
   
-  // Флаг для отслеживания процесса обновления токена
   let isRefreshing = false;
-  // Массив запросов, ожидающих обновления токена
   let failedQueue: Array<{
     resolve: (value?: unknown) => void;
     reject: (reason?: any) => void;

@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { isRouteErrorResponse } from 'react-router-dom';
 import { isDevMode } from '@/configs/mode';
-// import { ApiError } from '@/generated-api/requests';
+import { ApiError } from '@/generated-api/requests';
 
 type ApiErrorType = {
     message: string;
@@ -10,24 +10,21 @@ type ApiErrorType = {
     statusText?: string;
 };
 
-// type ErrorBodyType = {
-//     message: string;
-//     status: string;
-//     status_code: number;
-// };
+type ErrorBodyType = {
+    message: string;
+    statusCode: number;
+};
 
-// const isErrorBody = (body: unknown): body is ErrorBodyType => {
-//     return (
-//         !!body &&
-//         typeof body === 'object' &&
-//         'message' in body &&
-//         typeof body.message === 'string' &&
-//         'status' in body &&
-//         typeof body.status === 'string' &&
-//         'status_code' in body &&
-//         typeof body.status_code === 'number'
-//     );
-// };
+const isErrorBody = (body: unknown): body is ErrorBodyType => {
+    return (
+        !!body &&
+        typeof body === 'object' &&
+        'message' in body &&
+        typeof body.message === 'string' &&
+        'statusCode' in body &&
+        typeof body.statusCode === 'number'
+    );
+};
 
 export const errorNormalize = (error: unknown): ApiErrorType => {
     if (isRouteErrorResponse(error)) {
@@ -42,25 +39,26 @@ export const errorNormalize = (error: unknown): ApiErrorType => {
         };
     }
 
-    // if (error instanceof ApiError) {
-    //     isDevMode &&
-    //         // eslint-disable-next-line no-console
-    //         console.error('Ошибка instanceof ApiError: ', error.message ?? error.message);
+    if (error instanceof ApiError) {
+        isDevMode &&
+            // eslint-disable-next-line no-console
+            console.error('Ошибка instanceof ApiError: ', error.message ?? error.message);
 
-    //     if (isErrorBody(error.body)) {
-    //         return {
-    //             message: error.body.message,
-    //             status: error.body.status_code,
-    //             statusText: error.body.status,
-    //         };
-    //     }
+        if (isErrorBody(error.body)) {
+            
+            return {
+                message: error.body.message,
+                status: error.body.statusCode,
+                // statusText: error.body.status,
+            };
+        }
 
-    //     return {
-    //         message: error.message,
-    //         status: error.status,
-    //         statusText: error.message,
-    //     };
-    // }
+        return {
+            message: error.message,
+            status: error.status,
+            statusText: error.message,
+        };
+    }
 
     if (error instanceof AxiosError) {
         isDevMode &&

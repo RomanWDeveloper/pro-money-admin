@@ -9,15 +9,13 @@ import router from "./routes/router";
 import "@/styles/index.css";
 import { store } from "./store";
 import { Provider } from "react-redux";
-import { configureApi } from "./configs/apiConfig";
 
-configureApi();
 setupAxiosParams();
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
-		<Provider store={store}>
-			<QueryClientProvider client={queryClient}>
-				<StyleProvider layer>
+			<Provider store={store}>
+				<QueryClientProvider client={queryClient}>
+					<StyleProvider layer>
 					<RouterProvider router={router} />
 				</StyleProvider>
 			</QueryClientProvider>

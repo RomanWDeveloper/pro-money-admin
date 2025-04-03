@@ -1,4 +1,4 @@
-import { BENEFITS } from "@/configs/links/benefits";
+import { BENEFITS } from "@/constants/links/benefits";
 import { Benefits } from "@/views/Main/Benefits";
 import { Benefit } from "@/views/Main/Benefits/Benefit";
 import { Navigate } from "react-router-dom";

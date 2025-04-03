@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { UsersContent } from './style';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import { useUsersList } from '@/utils/apiMethods';
-import { USERS } from '@/configs/links/users';
+import { USERS } from '@/constants/links/users';
 
 export const Users = () => {
   const navigate = useNavigate();

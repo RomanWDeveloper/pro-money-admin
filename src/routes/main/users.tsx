@@ -1,4 +1,4 @@
-import { USERS } from "@/configs/links/users";
+import { USERS } from "@/constants/links/users";
 import { Users } from "@/views/Main/Users";
 import { User } from "@/views/Main/Users/User";
 import { Navigate } from "react-router-dom";
