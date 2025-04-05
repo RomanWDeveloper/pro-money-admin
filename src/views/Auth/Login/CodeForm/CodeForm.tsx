@@ -3,15 +3,12 @@ import { OTPProps } from "antd/es/input/OTP";
 import Text from "antd/es/typography/Text";
 import { FC, useState } from "react";
 
-const deadline = Date.now() + 1000 * 60;
-
-const { Countdown } = Statistic;
-
-interface CodeFormProps {
+export interface CodeFormProps {
   resendCode: (params: { requestBody: { email: string } }) => void;
   sharedProps: OTPProps;
   onGoBack: () => void;
   email: string;
+  delay: number;
 }
 
 export const CodeForm: FC<CodeFormProps> = ({
@@ -19,9 +16,15 @@ export const CodeForm: FC<CodeFormProps> = ({
   sharedProps,
   onGoBack,
   email,
+  delay,
 }) => {
+  const { Countdown } = Statistic;
   const [isTimerEnd, setIsTimerEnd] = useState(false);
   const { token } = theme.useToken();
+
+    const currentTimestamp = Date.now();
+    const deadline = currentTimestamp + delay;
+
 
   const onFinish = () => {
     setIsTimerEnd(true);

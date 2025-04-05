@@ -4,16 +4,15 @@ import { Link, Outlet } from 'react-router-dom';
 import { LINKS } from "@/constants/links";
 import { HeaderWrapper, CustomAlert } from './style';
 import { BellFilled, UserOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import { redirectToLoginIfNoToken } from '@/utils/helpers';
+import { useState } from 'react';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 
 
 const { Content, Footer, Sider } = Layout;
 
 export const Main = () => {
-   useEffect(() => {
-    redirectToLoginIfNoToken();
-  }, []);
+  const authRedirect = useRequireAuth();
+  if (authRedirect) return authRedirect;
 
   const { token } = theme.useToken();
   const [openDrawer, setOpenDrawer] = useState(false);

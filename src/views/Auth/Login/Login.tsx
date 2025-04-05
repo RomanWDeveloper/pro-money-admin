@@ -1,11 +1,11 @@
 import { Flex as AntFlex, Button, Flex, Modal, Typography } from "antd";
 import { OTPProps } from "antd/es/input/OTP";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CodeForm } from "./CodeForm";
 import { EmailForm } from "./EmailForm";
 import { useSignInEmail, useVerifySignInEmail } from "@/utils/apiMethods";
-
+import { CodeFormProps } from "./CodeForm/CodeForm";
 const { Title, Text } = Typography;
 export const Login = () => {
 	const [showCodeForm, setshowCodeForm] = useState(false);
@@ -14,7 +14,7 @@ export const Login = () => {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
 
-	const { mutate: registration } = useSignInEmail({
+	const { mutate: registration, data: registrationData } = useSignInEmail({
 		onMutate: () => {
 			setIsLoading(true); 
 		},
@@ -37,15 +37,9 @@ export const Login = () => {
 		},
 	});
 
-	// FIXME: переделать чтобы отправлялось всегда при нажатии на кнопку (сейчас 1 раз отправляется при вводе email)
-	useEffect(() => {
-		if (email) {
-			registration({ requestBody: { email } });
-		}
-	}, [email]);
-
 	const emailFormonFinish = async (email: string) => {
 		setEmail(email);
+		registration({ requestBody: { email } });
 	};
 
 	const onChangeSendCodeForm: OTPProps["onChange"] = (text) => {
@@ -60,6 +54,14 @@ export const Login = () => {
 		setshowCodeForm(false);
 	};
 
+	const codeFormProps: CodeFormProps = {
+		resendCode: registration,
+		sharedProps: sharedPropsSendCodeForm,
+		onGoBack: handleGoBack,
+		email: email,
+		delay: registrationData?.delay || 20000,
+	};
+
 	return (
 		<>
 			<AntFlex vertical={true} style={{ padding: 0, margin: 0, width: "100%", maxWidth: "400px" }}>
@@ -69,7 +71,7 @@ export const Login = () => {
 						Войти или зарегистрироваться
 					</Title>
 					{showCodeForm ? (
-						<CodeForm resendCode={registration} sharedProps={sharedPropsSendCodeForm} onGoBack={handleGoBack} email={email} />
+						<CodeForm {...codeFormProps} />
 					) : (
 						<EmailForm onEmailFormFinish={emailFormonFinish} buttonLoading={isLoading} />
 					)}
