@@ -8,6 +8,7 @@ import { useAuthenticationServicePostV1AuthSignOut as useSignOut } from "@/gener
 import { useUsersServiceGetV1AdminUsersMe as useGetMe } from "@/generated-api/queries";
 import { useUsersServiceGetV1AdminUsers as useUsersList } from "@/generated-api/queries";
 import { useUsersServicePostV1AdminUsers as useCreateUser } from "@/generated-api/queries";
+import { useUsersServicePatchV1AdminUsersById as useUpdateUser } from "@/generated-api/queries";
 import { useUsersServiceGetV1AdminUsersById as useGetUser } from "@/generated-api/queries";
 export { 
   useSignInEmail, 
@@ -17,5 +18,6 @@ export {
   useSignOut,
   useUsersList,
   useCreateUser,
-  useGetUser
+  useGetUser,
+  useUpdateUser
  };

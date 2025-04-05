@@ -2,7 +2,7 @@ import { useExit } from "@/hooks/useExit";
 import { Flex, Button, Modal } from "antd"
 
 export const User = () => {
-    const exit = useExit();
+    const exit = useExit(true);
     const [modal, contextHolder] = Modal.useModal();
 
     return (

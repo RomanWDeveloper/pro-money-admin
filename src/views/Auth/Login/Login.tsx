@@ -6,13 +6,16 @@ import { CodeForm } from "./CodeForm";
 import { EmailForm } from "./EmailForm";
 import { useSignInEmail, useVerifySignInEmail } from "@/utils/apiMethods";
 import { CodeFormProps } from "./CodeForm/CodeForm";
+import { useExit } from "@/hooks/useExit";
 const { Title, Text } = Typography;
 export const Login = () => {
+	const navigate = useNavigate();
+
 	const [showCodeForm, setshowCodeForm] = useState(false);
 	const [email, setEmail] = useState<string>("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState(false);
+	const exit = useExit(false);
 
 	const { mutate: registration, data: registrationData } = useSignInEmail({
 		onMutate: () => {
@@ -30,9 +33,12 @@ export const Login = () => {
 	// подтверждение кода
 	const { mutate: confirmCode } = useVerifySignInEmail({
 		onSuccess: (data) => {
-			if (data) {
+			if (data && data.appType === "MANAGEMENT") {
 				localStorage.setItem("auth-token", data.accessToken);
 				navigate("/");
+			} else {
+				exit();
+				navigate("/auth/not-allowed/");
 			}
 		},
 	});

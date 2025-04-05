@@ -1,78 +1,133 @@
-import { useParams } from "react-router-dom";
-import { Button, Col, Flex, Image, Rate, Row, Statistic } from "antd";
-import { LikeOutlined } from "@ant-design/icons";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Checkbox, Flex, Form, Input, Select, App as AntApp, } from "antd";
 import { UserContent } from "./style";
-import { useGetUser } from "@/utils/apiMethods";
-import { UserResponseDto } from "@/generated-api/requests";
-
+import { useCreateUser, useGetUser, useUpdateUser } from "@/utils/apiMethods";
+import { useEffect } from "react";
+import { ROLES } from "@/constants/roles";
+import { LINKS } from "@/constants/links";
 
 export const User = () => {
     const { id } = useParams();
-    
-    if(id) {
-        const {data: userData} = useGetUser({id});
-    }
+    const [form] = Form.useForm();
+    const { notification } = AntApp.useApp();
+    const navigate = useNavigate();
+    const { data: user } = useGetUser({ id: id || '' }, [], {
+      enabled: !!id,
+    });
+
+    const { mutate: updateUser } = useUpdateUser();
+    const { mutate: createUser } = useCreateUser();
+
+    useEffect(() => {
+      if (!id) {
+        form.resetFields();
+      } else if (user) {
+        form.setFieldsValue(user);
+      }
+    }, [user, form, id]);
+
+
+    const handleFinish = () => {
+      if (id) {
+        updateUser({ id, requestBody: form.getFieldsValue() },
+          {
+            onSuccess: () => {
+              notification.success({
+                message: 'Пользователь успешно обновлен',
+                duration: 4,
+              });
+              navigate(LINKS.USERS.path);
+            }
+          }
+        );
+      } else {
+        createUser({ requestBody: form.getFieldsValue() },
+          {
+            onSuccess: () => {
+              notification.success({
+                message: 'Пользователь успешно создан',
+                duration: 4,
+              });
+              navigate(LINKS.USERS.path);
+            }
+          }
+        );
+      }
+    };
 
     return (
         <UserContent>
-          <Flex gap={16}>
-              <Image
-                  width={200}
-                  src={user?.picture}
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={handleFinish}
+          >
+            <Flex className="user-form-fields">
+            <Form.Item
+              className="half-width"
+              name="email"
+              label="Email"
+              rules={[
+                { required: true, message: 'Пожалуйста, введите email' },
+                { type: 'email', message: 'Некорректный формат email' }
+              ]}
+            >
+              <Input placeholder="email@example.com" />
+            </Form.Item>
+            
+            <Form.Item
+              className="half-width"
+              name="name"
+              label="Имя"
+            >
+              <Input placeholder="Имя пользователя" />
+            </Form.Item>
+            
+            <Form.Item
+              className="half-width"
+              name="login"
+              label="Логин"
+              rules={[{ required: true, message: 'Пожалуйста, введите логин' }]}
+            >
+              <Input placeholder="Логин пользователя" />
+            </Form.Item>
+            
+            <Form.Item
+              name="roles"
+              label="Роль"
+              className="half-width"
+              rules={[{ required: true, message: 'Пожалуйста, выберите роль' }]}
+            >
+              <Select
+                mode="multiple"
+                placeholder="Выберите роли пользователя"
+                options={Object.values(ROLES).map((role) => ({
+                  value: role,
+                  label: role
+                }))}
               />
-              <Flex vertical gap={16}>
-                <h1>{user?.name} {user?.name}</h1>
-                <div className="user-info">
-                  <div><Rate allowHalf defaultValue={2.5} disabled /> <span>2.5</span></div>
-                  <div>
-                    <span>дата регистрации: </span>
-                    <span>12.03.2024</span>
-                  </div>
-                </div>
-              </Flex>
-            </Flex>
-
-            <Flex vertical gap={16}>
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Statistic title="подписчики" value={112893}  />
-                </Col>
-                <Col span={12}>
-                  <Statistic title="просмотры" value={112893} precision={2} />
-                </Col>
-              </Row>
-                <Row gutter={16}>
-                <Col span={12}>
-                  <Statistic title="лайки" value={1128} prefix={<LikeOutlined />} />
-                </Col>
-                <Col span={12}>
-                  <Statistic title="количество постов" value={93} />
-                </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Statistic title="последний пост" value={'24.03.2025'} />
-                </Col>
-                <Col span={12}>
-                  <Statistic title="активность" value={'высокая'} />
-                </Col>
-              </Row>
-              <Row gutter={16}>
-                <Col span={12}>
-                  <Statistic title="статус" value={user?.status==='confirmed' ? 'подтвержден' : 'не подтвержден'} />
-                </Col>
-                <Col span={12}>
-                  <Statistic title="наличие премиума" value={'нет'} />
-                </Col>
-              </Row>
+            </Form.Item>
+            
+            <Form.Item
+              name="isVerified"
+              valuePropName="checked"
+            >
+              <Checkbox>Верифицирован</Checkbox>
+            </Form.Item>
             </Flex>
             <Flex className="user-actions">
-               <Button type="primary">Подтвердить</Button>
+              <Button type="primary" htmlType="submit">
+                Сохранить
+              </Button>
+              
+              {id && (
                 <Flex gap={16}>
                   <Button type="primary" danger>Заблокировать</Button>
                   <Button type="primary" danger>Удалить</Button>
                 </Flex>
+              )}
             </Flex>
+          </Form>
         </UserContent>
-    )
+    );
 }
