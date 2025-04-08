@@ -1,10 +1,12 @@
 import  { useEffect, useState } from 'react';
-import { Button, Flex, GetProps, Input, List, Select, Skeleton } from 'antd';
+import { Avatar, Button, Flex, GetProps, Input, List, Select, Skeleton } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { UsersContent } from './style';
 import { ArrowUpOutlined } from '@ant-design/icons';
-import { useUsersList } from '@/utils/apiMethods';
+import { useUsersList } from '@/utils/api/users';
 import { USERS } from '@/constants/links/users';
+import { generateToken } from '@/utils/helpers';
+import { API_AVATAR_URL } from '@/constants/links/api';
 
 export const Users = () => {
   type SearchProps = GetProps<typeof Input.Search>;
@@ -74,6 +76,7 @@ export const Users = () => {
         >
           <Skeleton avatar title={false} loading={isLoadingUsersList} active>
             <List.Item.Meta
+              avatar={<Avatar src={`${API_AVATAR_URL}/${generateToken(item.email)}`} />}
               title={<Link to={`${USERS.path}/${item.id}`}>{getDisplayName(item)}</Link>}
               description={isValidName(item.name) ? String(item.email || '') : ''}
             />

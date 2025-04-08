@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Checkbox, Flex, Form, Input, Select, App as AntApp, } from "antd";
 import { UserContent } from "./style";
-import { useCreateUser, useGetUser, useUpdateUser } from "@/utils/apiMethods";
+import { useCreateUser, useGetUser, useUpdateUser } from "@/utils/api/users";
 import { useEffect } from "react";
 import { ROLES } from "@/constants/roles";
 import { LINKS } from "@/constants/links";

@@ -1,5 +1,5 @@
 import { LINKS } from "@/constants/links";
-import { useSignOut } from "@/utils/apiMethods";
+import { useSignOut } from "@/utils/api/auth";
 
 export const useExit = (redirect: boolean = false) => {
   const { mutate: signOut } = useSignOut();

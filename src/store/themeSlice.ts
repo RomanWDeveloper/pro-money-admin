@@ -1,4 +1,4 @@
-import { THEMES } from '@/constants';
+import { THEMES } from '@/constants/themes';
 import { ThemeType } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
