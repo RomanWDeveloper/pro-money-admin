@@ -1,7 +1,15 @@
-import { Button, Flex, Input, Statistic, theme } from "antd";
+import { Statistic, theme } from "antd";
 import { OTPProps } from "antd/es/input/OTP";
-import Text from "antd/es/typography/Text";
 import { FC, useState } from "react";
+import {
+  BackButton,
+  ButtonsContainer,
+  Container,
+  EmailText,
+  InfoText,
+  OTPInput,
+  ResendButton,
+} from "./style";
 
 export interface CodeFormProps {
   resendCode: (params: { requestBody: { email: string } }) => void;
@@ -11,60 +19,48 @@ export interface CodeFormProps {
   delay: number;
 }
 
-export const CodeForm: FC<CodeFormProps> = ({
-  resendCode,
-  sharedProps,
-  onGoBack,
-  email,
-  delay,
-}) => {
-  const { Countdown } = Statistic;
+export const CodeForm: FC<CodeFormProps> = (props) => {
+  const { resendCode, sharedProps, onGoBack, email, delay } = props;
   const [isTimerEnd, setIsTimerEnd] = useState(false);
   const { token } = theme.useToken();
+  const { Countdown } = Statistic;
 
-    const currentTimestamp = Date.now();
-    const deadline = currentTimestamp + delay;
+  const currentTimestamp = Date.now();
+  const deadline = currentTimestamp + delay;
 
-
-  const onFinish = () => {
-    setIsTimerEnd(true);
-  };
+  const onFinish = () => setIsTimerEnd(true);
 
   return (
-    <Flex vertical={true}>
-      <Text style={{ marginBottom: 20 }} type="secondary">
-        Введите код, отправленный на&nbsp;
-        <Text style={{ color: token.colorPrimary }}>{email}</Text>
-      </Text>
+    <Container vertical={true}>
+      <InfoText type="secondary">
+        Введите код, отправленный на&nbsp;
+        <EmailText $colorPrimary={token.colorPrimary}>{email}</EmailText>
+      </InfoText>
 
-      <Input.OTP
-        style={{ textTransform: "uppercase" }}
+      <OTPInput
         autoFocus={true}
         length={6}
         {...sharedProps}
       />
 
-      <Flex>
-        <Button
+      <ButtonsContainer>
+        <ResendButton
           type="link"
           disabled={!isTimerEnd}
           onClick={() => {resendCode({ requestBody: { email } })}}
-          style={{
-            color: isTimerEnd ? token.colorPrimary : "#76767A",
-            marginBottom: 20,
-            paddingLeft: 0,
-          }}
+          $isTimerEnd={isTimerEnd}
+          $colorPrimary={token.colorPrimary}
         >
           Отправить код повторно
           {!isTimerEnd && (
             <Countdown format="mm:ss" value={deadline} onFinish={onFinish} />
           )}
-        </Button>
-      </Flex>
+        </ResendButton>
+      </ButtonsContainer>
 
-      <Button onClick={onGoBack} type="primary">
+      <BackButton onClick={onGoBack} type="primary">
         Назад
-      </Button>
-    </Flex>
+      </BackButton>
+    </Container>
   );
 };

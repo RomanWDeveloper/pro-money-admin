@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CodeForm } from "./CodeForm";
 import { EmailForm } from "./EmailForm";
-import { useSignInEmail, useVerifySignInEmail } from "@/utils/api/auth";
+import { useSignInEmail, useVerifySignInEmail } from "@/hooks/api/auth";
 import { CodeFormProps } from "./CodeForm/CodeForm";
 import { useExit } from "@/hooks/useExit";
 const { Title, Text } = Typography;

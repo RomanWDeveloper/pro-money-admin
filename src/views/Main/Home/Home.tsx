@@ -1,4 +1,4 @@
-import { useGetMe } from "@/utils/api/users";
+import { useGetMe } from "@/hooks/api/users";
 
 export const Home = () => {
   const { data } = useGetMe();
