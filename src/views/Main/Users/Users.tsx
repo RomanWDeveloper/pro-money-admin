@@ -8,26 +8,9 @@ import { ListUsers } from '@/components/ListUsers';
 import { ListSort } from '@/components/ListSort';
 import { ListSearch } from '@/components/ListSearch';
 import { useUserBan, useUserDelete } from '@/hooks/UserHooks';
-import { UserSortDirection, UserSortOption, UserSortOptions } from '@/types';
+import { UserSortDirection, UserSortOption } from '@/types';
+import { userSortOptions } from './constants';
 
-const userSortOptions: UserSortOptions = [
-  {
-    label: 'По почте',
-    value: 'email',
-  },
-  {
-    label: 'По дате регистрации',
-    value: 'createdAt',
-  },
-  {
-    label: 'По логину',
-    value: 'login',
-  },
-  {
-    label: 'По имени',
-    value: 'name',
-  },
-];
 
 export const Users = () => {
   const navigate = useNavigate();

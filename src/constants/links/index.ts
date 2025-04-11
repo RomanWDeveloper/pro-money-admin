@@ -5,6 +5,8 @@ import { AUTH } from "./auth";
 import { BENEFITS } from "./benefits";
 import { FEEDBACKS } from "./feedbacks";
 import { ADVERTISERS } from "./advertisers";
+import { CONSTRUCTOR } from "./constructor";
+
 export const LINKS = {
   AUTH,
   SETTINGS,
@@ -13,4 +15,5 @@ export const LINKS = {
   BENEFITS,
   FEEDBACKS,
   ADVERTISERS,
+  CONSTRUCTOR,
 };

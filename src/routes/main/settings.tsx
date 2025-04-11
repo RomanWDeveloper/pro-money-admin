@@ -3,16 +3,16 @@ import { User } from "@/views/Main/Settings/User";
 import { Visual } from "@/views/Main/Settings/Visual";
 
 export const settings = {
-  path: SETTINGS.path, //settings/
+  path: SETTINGS.path,
 
   children: [
     {
       index: true,
-      path: SETTINGS.VISUAL.path, //settings/visual
+      path: SETTINGS.VISUAL.path,
       element: <Visual />,
     },
     {
-      path: SETTINGS.USER.path, //settings/user
+      path: SETTINGS.USER.path,
       element: <User />,
     },
   ],

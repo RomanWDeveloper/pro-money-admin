@@ -25,3 +25,8 @@ body {
     overflow-x: hidden;
     font-family: 'PT Sans', sans-serif;
 }
+
+.filter-content {
+    width: 100%;
+    justify-content: space-between;
+}

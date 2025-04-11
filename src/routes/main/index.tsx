@@ -6,8 +6,17 @@ import { posts } from "./posts";
 import { benefits } from "./benefits";
 import { feedbacks } from "./feedbacks";
 import { advertisers } from "./advertisers";
+import { constructor } from "./constructor";
 
-const routes = [settings, ...users, ...posts, ...benefits, ...feedbacks, ...advertisers];
+const routes = [
+  settings, 
+  ...users, 
+  ...posts, 
+  ...benefits, 
+  ...feedbacks, 
+  ...advertisers, 
+  ...constructor
+];
 
 
 export const main = {

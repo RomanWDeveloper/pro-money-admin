@@ -6,11 +6,6 @@ export const UsersContent = styled(Flex)`
   flex-direction: column;
   gap: 16px;
 
-  .filter-content {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .users-list {
     width: 100%;
   }
