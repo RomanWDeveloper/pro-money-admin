@@ -15,13 +15,13 @@ import { LINKS } from '../../constants/links';
 
 
 const prepareMenuItems: prepareMenuItem[] = [
+  // {
+  //   path: '/',
+  //   name: 'Главная',
+  //   icon: <HomeFilled />,
+  // },
   {
-    path: '/',
-    name: 'Главная',
-    icon: <HomeFilled />,
-  },
-  {
-    path: LINKS.CONSTRUCTOR.path,
+    path: '#',
     name: 'Конструктор',
     icon: <ProductFilled />,
     children: [
@@ -35,26 +35,26 @@ const prepareMenuItems: prepareMenuItem[] = [
       },
     ],
   },
-  {
-    path: LINKS.BENEFITS.path,
-    name: 'Выгода',
-    icon: <FireFilled />,
-  },
-  {
-    path: LINKS.FEEDBACKS.path,
-    name: 'Обратная связь',
-    icon: <Badge dot><MessageFilled /></Badge>,
-  },
-  {
-    path: LINKS.POSTS.path,
-    name: 'Посты',
-    icon: <NotificationFilled />,
-  },
-  {
-    path: LINKS.ADVERTISERS.path,
-    name: 'Рекламодатели',
-    icon: <CrownFilled />,
-  },
+  // {
+  //   path: LINKS.BENEFITS.path,
+  //   name: 'Выгода',
+  //   icon: <FireFilled />,
+  // },
+  // {
+  //   path: LINKS.FEEDBACKS.path,
+  //   name: 'Обратная связь',
+  //   icon: <Badge dot><MessageFilled /></Badge>,
+  // },
+  // {
+  //   path: LINKS.POSTS.path,
+  //   name: 'Посты',
+  //   icon: <NotificationFilled />,
+  // },
+  // {
+  //   path: LINKS.ADVERTISERS.path,
+  //   name: 'Рекламодатели',
+  //   icon: <CrownFilled />,
+  // },
   {
     path: LINKS.USERS.path,
     name: 'Пользователи',
