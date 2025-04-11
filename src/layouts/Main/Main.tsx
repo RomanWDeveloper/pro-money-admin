@@ -1,21 +1,37 @@
-import { Avatar, Badge, Button, Drawer, Flex, Layout, theme } from 'antd';
+import { Avatar, Badge, Button, Drawer, Flex, Layout } from 'antd';
 import { MainMenu } from '@/components/MainMenu';
 import { Link, Outlet } from 'react-router-dom';
 import { LINKS } from "@/constants/links";
-import { HeaderWrapper, CustomAlert } from './style';
-import { BellFilled, UserOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { HeaderWrapper, CustomAlert, StyledContent, StyledFooter, StyledSider, BellIcon, useMainStyles } from './style';
+import { BellFilled } from '@ant-design/icons';
+import { useState, useMemo, memo } from 'react';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
+import { API_AVATAR_URL } from '@/constants/links/api';
+import { generateToken } from '@/utils/helpers';
+import { useGetMe } from '@/hooks/api/users';
 
+// Выносим компонент аватара в отдельный мемоизированный компонент
+const UserAvatar = memo(() => {
+  const { data: user } = useGetMe();
+  
+  // Мемоизируем вычисленное значение токена
+  const avatarToken = useMemo(() => {
+    return generateToken(user?.email || '');
+  }, [user?.email]);
 
-const { Content, Footer, Sider } = Layout;
+  return (
+    <Link to={LINKS.SETTINGS.USER.fullPath}>
+      <Avatar size="small" shape="square" src={`${API_AVATAR_URL}/${avatarToken}`} />
+    </Link>
+  );
+});
 
 export const Main = () => {
   const authRedirect = useRequireAuth();
   if (authRedirect) return authRedirect;
 
-  const { token } = theme.useToken();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const styles = useMainStyles();
 
   const showDrawer = () => {
     setOpenDrawer(true);
@@ -27,29 +43,29 @@ export const Main = () => {
 
   return (
     <Layout>
-      <Sider
+      <StyledSider
         breakpoint="lg"
         collapsedWidth="0"
       >
         <MainMenu />
-      </Sider>
+      </StyledSider>
       <Layout>
-        <HeaderWrapper style={{ backgroundColor: token.colorBgLayout }}>
+        <HeaderWrapper style={styles.headerStyle}>
           <Flex align="center" justify="space-between" gap={20}>
             <Badge dot>
-              <BellFilled style={{ fontSize: 20 }} onClick={showDrawer} />
+              <BellIcon onClick={showDrawer}>
+                <BellFilled />
+              </BellIcon>
             </Badge>
-            <Link to={LINKS.SETTINGS.USER.fullPath}>
-              <Avatar size="small" shape="square" icon={<UserOutlined />} />
-            </Link>
+            <UserAvatar />
           </Flex>
         </HeaderWrapper>
-        <Content style={{ backgroundColor: token.colorBgContainer, margin: '24px', padding: '20px' }}>
+        <StyledContent style={styles.contentStyle}>
           <Outlet />
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Админ-панель ©{new Date().getFullYear()} | Версия "0.0.1 alpha"
-        </Footer>
+        </StyledContent>
+        <StyledFooter>
+          Админ-панель ©{new Date().getFullYear()} | Версия "0.0.2 alpha"
+        </StyledFooter>
       </Layout>
 
       <Drawer title="Уведомления" onClose={onCloseDrawer} open={openDrawer}>

@@ -5,6 +5,13 @@ import type { NotificationInstance } from 'antd/es/notification/interface';
 export const queryClient = new QueryClient({
   queryCache: new QueryCache(),
   mutationCache: new MutationCache(),
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 30,
+    },
+  },
 });
 
 export const setupErrorHandlers = (notification: NotificationInstance) => {

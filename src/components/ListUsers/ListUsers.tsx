@@ -8,12 +8,11 @@ import { Link } from "react-router-dom";
 type ListUsersProps = {
   usersList: UserResponseDto[];
   isLoadingUsersList: boolean;
-  initLoading: boolean;
   toggleDeleteUser: (id: string, isActive: boolean) => void;
   toggleBanUser: (id: string, isActive: boolean) => void;
 };
 
-export const ListUsers = ({ usersList, isLoadingUsersList, initLoading, toggleDeleteUser, toggleBanUser }: ListUsersProps) => {
+export const ListUsers = ({ usersList, isLoadingUsersList, toggleDeleteUser, toggleBanUser }: ListUsersProps) => {
   const { Text } = Typography;
   const getDisplayName = (item: UserResponseDto): string => {
     if (isValidName(item.name)) {
@@ -30,7 +29,6 @@ export const ListUsers = ({ usersList, isLoadingUsersList, initLoading, toggleDe
   return (
       <List
         className='users-list'
-        loading={initLoading}
         itemLayout="horizontal"
         dataSource={usersList}
         renderItem={(item) => (

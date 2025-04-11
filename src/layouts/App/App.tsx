@@ -7,9 +7,9 @@ import { AppWrapper, GlobalStyle } from "./style";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setupErrorHandlers } from "@/configs/queryClient";
-import { useEffect } from "react";
+import { useEffect, useMemo, memo } from "react";
 
-const AppContent = () => {
+const AppContent = memo(() => {
 	const { notification } = AntApp.useApp();
 	
 	useEffect(() => {
@@ -21,15 +21,16 @@ const AppContent = () => {
 			<Outlet />
 		</AppWrapper>
 	);
-};
+});
 
 
 export const App = () => {
 	const theme = useSelector((state: RootState) => state.theme.current);
+	const currentTheme = useMemo(() => Theme[theme as keyof typeof Theme], [theme]);
 
 	return (
-		<ConfigProvider locale={ruRU} theme={Theme[theme as keyof typeof Theme]}>
-			<GlobalStyle theme={Theme[theme as keyof typeof Theme]} />
+		<ConfigProvider locale={ruRU} theme={currentTheme}>
+			<GlobalStyle theme={currentTheme} />
 			<AntApp>
 				<AppContent />
 			</AntApp>

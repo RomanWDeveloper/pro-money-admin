@@ -1,6 +1,19 @@
-import { Alert, Flex } from "antd";
-import { Header } from "antd/es/layout/layout";
+import { Alert, Flex, Layout, theme } from "antd";
+import { Header, Content as AntContent, Footer as AntFooter } from "antd/es/layout/layout";
 import { styled } from "styled-components";
+
+export const useMainStyles = () => {
+  const { token } = theme.useToken();
+  
+  return {
+    headerStyle: {
+      backgroundColor: token.colorBgLayout
+    },
+    contentStyle: {
+      backgroundColor: token.colorBgContainer
+    }
+  };
+};
 
 export const ContentWrapper = styled(Flex)`
   flex-shrink: 1;
@@ -32,4 +45,22 @@ export const CustomAlert = styled(Alert)`
   .ant-alert-action {
     margin-top: 10px;
   }
+`;
+
+export const StyledSider = styled(Layout.Sider)`
+  /* Здесь могут быть дополнительные стили для Sider */
+`;
+
+export const StyledContent = styled(AntContent)`
+  margin: 24px;
+  padding: 20px;
+`;
+
+export const StyledFooter = styled(AntFooter)`
+  text-align: center;
+`;
+
+export const BellIcon = styled.div`
+  font-size: 20px;
+  cursor: pointer;
 `;

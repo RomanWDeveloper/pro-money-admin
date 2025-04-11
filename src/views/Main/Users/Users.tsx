@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import  { useCallback, useState } from 'react';
 import { Button, Flex } from 'antd';
 import {  useNavigate } from 'react-router-dom';
 import { UsersContent } from './style';
@@ -31,7 +31,6 @@ const userSortOptions: UserSortOptions = [
 
 export const Users = () => {
   const navigate = useNavigate();
-  const [initLoading, setInitLoading] = useState(true);
   const [sortField, setSortField] = useState<UserSortOption>('createdAt');
   const [sortDirection, setSortDirection] = useState<UserSortDirection>('asc');
 
@@ -44,9 +43,6 @@ export const Users = () => {
   const deleteUser = useUserDelete();
   const banUser = useUserBan();
 
-  useEffect(() => {
-    setInitLoading(false);
-  }, []);
 
   const handleDeleteUser = (id: string, isDeleted: boolean) => {
     deleteUser(id, isDeleted, () => {
@@ -60,13 +56,18 @@ export const Users = () => {
     });
   };
 
-  const handleSortChange = (value: UserSortOption) => {
+  const handleSortChange = useCallback((value: UserSortOption) => {
     setSortField(value);
-  };
+  }, []);
 
-  const handleDirectionChange = (direction: UserSortDirection) => {
+  const handleDirectionChange = useCallback((direction: UserSortDirection) => {
     setSortDirection(direction);
-  };
+  }, []);
+
+  const handleSearchStart = useCallback((value?: string) => {
+    // Здесь в будущем можно добавить логику поиска
+    console.log('Search started:', value);
+  }, []);
 
   return (
     <UsersContent>
@@ -78,13 +79,12 @@ export const Users = () => {
             onDirectionChange={handleDirectionChange}
           />
           <ListSearch 
-            onSearchStart={() => {}}
+            onSearchStart={handleSearchStart}
           />
       </Flex>
       <ListUsers 
         usersList={usersList?.users || []} 
         isLoadingUsersList={isLoadingUsersList} 
-        initLoading={initLoading} 
         toggleDeleteUser={handleDeleteUser}
         toggleBanUser={handleBanUser}
       />
